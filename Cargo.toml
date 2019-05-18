@@ -1,0 +1,72 @@
+[package]
+name = "hello_rust_world"
+version = "0.1.0"
+authors = ["komkomh"]
+edition = "2018"
+
+[dependencies]
+rand="0.3.0"
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[[bin]]
+name = "No45"
+path = "src/exercises/No45.rs"
+
+[[bin]]
+name = "loop"
+path = "src/exercises/loop.rs"
+
+[[bin]]
+name = "fizzbuzz"
+path = "src/exercises/fizzbuzz.rs"
+
+[[bin]]
+name = "sosu"
+path = "src/exercises/sosu.rs"
+
+[[bin]]
+name = "sosu2"
+path = "src/exercises/sosu2.rs"
+
+[[bin]]
+name = "kazuate"
+path = "src/exercises/kazuate.rs"
+
+[[bin]]
+name = "reversi_hairetsu"
+path = "src/reversi/hairetsu.rs"
+
+[[bin]]
+name = "reversi_hairetsu2"
+path = "src/reversi/hairetsu2.rs"
+
+[[bin]]
+name = "reversi_hairetsu3"
+path = "src/reversi/hairetsu3.rs"
+
+[[bin]]
+name = "reversi_hairetsu4"
+path = "src/reversi/hairetsu4.rs"
+
+[[bin]]
+name = "reversi_hairetsu5"
+path = "src/reversi/hairetsu5.rs"
+
+[[bin]]
+name = "reversi_hairetsu6_score"
+path = "src/reversi/hairetsu6_score.rs"
+
+[[bin]]
+name = "reversi_hairetsu7_points"
+path = "src/reversi/hairetsu7_points.rs"
+
+[[bin]]
+name = "reversi_hairetsu8_reverse"
+path = "src/reversi/hairetsu8_reverse.rs"
+
+[[bin]]
+name = "reversi_hairetsu9_reverse"
+path = "src/reversi/hairetsu9_min_score.rs"
