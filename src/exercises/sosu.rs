@@ -1,10 +1,20 @@
 fn main() {
-    for x in 1..40 {
-        match x {
-            x if (x % 15 == 0) => print!("fizzbuzz "),
-            x if (x % 5 == 0) => print!("buzz "),
-            x if (x % 3 == 0) => print!("fizz "),
-            _ => print!("{} ", x),
+    for i in 1..100 {
+        if is_sosu(i) {
+            print!("{} ", i)
         }
     }
+}
+
+fn is_sosu(target: i32) -> bool {
+    if target < 2 {
+        return false;
+    }
+
+    for i in 2..target {
+        if target % i == 0 {
+            return false;
+        }
+    }
+    return true;
 }

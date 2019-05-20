@@ -10,8 +10,6 @@ fn main() {
     println!("-----------------------");
     let new_ban = reverse_stone(ban, -1, (0, 1));
     show_ban(new_ban);
-    println!("----------------------- original");
-    show_ban(ban);
 }
 
 fn create_ban() -> [[i8; 4]; 4] {
@@ -193,12 +191,13 @@ fn get_reverse_points(ban: [[i8; BAN_SIZE]; BAN_SIZE],
         // 他石なら次の場所を読む
         _ => {
             // ひっくり返せるかを取得する
-            return get_reverse_points(ban, stone, (y, x), direction).map(|points| {
-                let mut new_points = points;
-                let point = (y, x);
-                new_points.push(point);
-                return new_points;
-            });
+            get_reverse_points(ban, stone, (y, x), direction)
+                .map(|points| {
+                    let mut new_points = points;
+                    let point = (y, x);
+                    new_points.push(point);
+                    return new_points;
+                })
         }
     };
 }

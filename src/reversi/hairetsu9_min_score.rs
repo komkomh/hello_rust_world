@@ -1,27 +1,35 @@
-const BAN_SIZE: usize = 4;
+const BAN_SIZE: usize = 6;
+const SEARCH_DEPTH: i8 = 5;
 
 fn main() {
     let ban = create_ban();
     show_ban(ban);
+//
+//    let points = get_points(ban, -1);
+//    points.iter().for_each(|point| println!("{},{}", point.0, point.1));
 
-    let points = get_points(ban, -1);
-    points.iter().for_each(|point| println!("{},{}", point.0, point.1));
-
-    println!("-----------------------");
-    let new_ban = reverse_stone(ban, -1, (0, 1));
+    let new_ban = put_stone(ban, -1, (1, 2));
     show_ban(new_ban);
+
+    let next_point = get_next_point(new_ban, 1);
+    next_point.map(|next_point| {
+        println!("{},{}", next_point.0, next_point.1);
+    });
 }
 
-fn create_ban() -> [[i8; 4]; 4] {
+fn create_ban() -> [[i8; 6]; 6] {
     [
-        [0, 0, 0, 0],
-        [0, 1, -1, 0],
-        [0, -1, 1, 0],
-        [0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 1, -1, 0, 0],
+        [0, 0, -1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
     ]
 }
 
 fn show_ban(ban: [[i8; BAN_SIZE]; BAN_SIZE]) {
+    println!("---------------");
     ban.iter().for_each(|array| {
         array.iter().for_each(|stone| {
             let stone_display = match stone {
@@ -140,7 +148,7 @@ fn get_points(ban: [[i8; BAN_SIZE]; BAN_SIZE], stone_color: i8) -> Vec<(i8, i8)>
 }
 
 // 石を置いた後の盤を取得する
-fn reverse_stone(ban: [[i8; BAN_SIZE]; BAN_SIZE], stone: i8, point: (i8, i8)) -> [[i8; BAN_SIZE]; BAN_SIZE] {
+fn put_stone(ban: [[i8; BAN_SIZE]; BAN_SIZE], stone: i8, point: (i8, i8)) -> [[i8; BAN_SIZE]; BAN_SIZE] {
     let point_stone = ban[point.0 as usize][point.1 as usize];
     if point_stone != 0 {
         return ban;
@@ -201,4 +209,56 @@ fn get_reverse_points(ban: [[i8; BAN_SIZE]; BAN_SIZE],
         }
     };
 }
+
+// x手先を読む
+fn get_next_point(ban: [[i8; BAN_SIZE]; BAN_SIZE], stone_color: i8) -> Option<(i8, i8)> {
+    let points: Vec<(i8, i8)> = get_points(ban, stone_color);
+    let point_score = points.iter()
+        .map(|&point| {
+            let new_ban = put_stone(ban, stone_color, point);
+            let min_score = get_min_score(new_ban, stone_color * -1, SEARCH_DEPTH);
+            return (point, min_score);
+        })
+        .min_by_key(|point_score| point_score.1);
+
+    return point_score.map(|ps| ps.0);
+}
+
+// x手先を読む
+fn get_min_score(ban: [[i8; BAN_SIZE]; BAN_SIZE], stone_color: i8, index: i8) -> usize {
+    let points: Vec<(i8, i8)> = get_points(ban, stone_color);
+    let score = points.iter()
+        .map(|&point| {
+            let new_ban = put_stone(ban, stone_color, point);
+            let next_color = stone_color * -1;
+            if index > 0 {
+                get_min_score(new_ban, next_color, index - 1)
+            } else {
+//                show_ban(new_ban);
+                get_score(new_ban, next_color)
+            }
+        })
+        .min();
+    return score.unwrap_or(get_score(ban, stone_color * -1));
+}
+
+
+//// x手先を読む
+//fn get_next_point(ban: [[i8; BAN_SIZE]; BAN_SIZE], stone_color: i8, index: i8) -> Option<((i8, i8), usize)> {
+//    let points: Vec<(i8, i8)> = get_points(ban, stone_color);
+//    let point_score = points.iter()
+//        .map(|&point| {
+//            let new_ban = put_stone(ban, stone_color, point);
+//            if index > 0 {
+//                let result = get_next_point(new_ban, stone_color * -1, index - 1);
+//                if result.is_some() {
+//                    return result.unwrap();
+//                }
+//            }
+//            return (point, get_score(new_ban, -stone_color * -1));
+//        })
+//        .min_by_key(|point_score| point_score.1);
+//
+//    return point_score;
+//}
 

@@ -1,35 +1,36 @@
 fn main() {
     let ban = create_ban();
     show_ban(ban);
-    println!("================");
-    let stone_array = to_stone_array([0, 1, 2]);
-    println!("{}", stone_array.len());
 }
 
 fn create_ban() -> [[Stone; 4]; 4] {
-    [
-        [Stone::None, Stone::None, Stone::None, Stone::None],
-        [Stone::None, Stone::None, Stone::None, Stone::None],
-        [Stone::None, Stone::None, Stone::None, Stone::None],
-        [Stone::None, Stone::None, Stone::None, Stone::None],
-    ]
+    let num_ban =
+        [
+            [0, 0, 0, 0],
+            [0, 2, 1, 0],
+            [0, 1, 2, 0],
+            [0, 0, 0, 0],
+        ];
+    to_stone_array(num_ban)
+}
+
+fn to_stone_array(num_ban: [[i8; 4]; 4]) -> [[Stone; 4]; 4] {
+    let mut stone_array: [[Stone; 4]; 4] = [[Stone::None; 4]; 4];
+    for (i, array) in num_ban.iter().enumerate() {
+        for (j, num_stone) in array.iter().enumerate() {
+            stone_array[i][j] = Stone::of(*num_stone);
+        }
+    }
+    return stone_array;
 }
 
 fn show_ban(ban: [[Stone; 4]; 4]) {
     ban.iter().for_each(|array| {
-        ban.iter().for_each(|x| print!("{}", x));
-        println!();
+        array.iter().for_each(|x| {
+            print!("|{}", &x.name());
+        });
+        println!("|");
     });
-}
-
-fn to_stone_array(param_array: [i8; 3]) -> [Stone; 3] {
-//    let mut stone_array: [Stone; 3] = unsafe { std::mem::uninitialized() };
-    let mut stone_array: [Stone; 3] = [Stone::None; 3];
-
-    for i in 0..3 {
-        stone_array[i] = Stone::of(param_array[i]);
-    }
-    return stone_array;
 }
 
 #[derive(Copy, Clone)]
@@ -50,6 +51,14 @@ impl Stone {
             v if Stone::Black.value() == v => Stone::Black,
             v if Stone::White.value() == v => Stone::White,
             _ => Stone::None,
+        }
+    }
+
+    fn name(self: Stone) -> &'static str {
+        match self {
+            Stone::None => " ",
+            Stone::Black => "●",
+            Stone::White => "○",
         }
     }
 }
