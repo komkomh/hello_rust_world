@@ -53,8 +53,7 @@ macro_rules! read_value {
 
 fn main() {
     input! {
-        n: usize,
-//        v: [i32; n],
+        a: [i32; 5]
     }
-    println!("{}", n)
+    a.iter().for_each(|n| println!("{}", n))
 }
