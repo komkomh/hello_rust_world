@@ -53,7 +53,15 @@ macro_rules! read_value {
 
 fn main() {
     input! {
-        a: [i32; 5]
+        c: i32
     }
-    a.iter().for_each(|n| println!("{}", n))
+
+    for i in 1..c + 1 {
+        for j in 1..c + 1 {
+            if i * j == c {
+                println!("{} {}", i, j);
+                return;
+            }
+        }
+    }
 }
