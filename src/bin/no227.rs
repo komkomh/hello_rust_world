@@ -53,7 +53,30 @@ macro_rules! read_value {
 
 fn main() {
     input! {
-        a: [i32; 5]
+        a: [usize; 5]
     };
-    a.iter().for_each(|n| println!("{}", n));
+
+    // カード数を数える
+    let mut card_counts:[usize; 13] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for i in 0..a.len() {
+        let card_number = a[i];
+        let card_count = card_counts[card_number - 1];
+        card_counts[card_number - 1] = card_count + 1;
+    }
+
+    // 3枚組の数を取得する
+    let three = card_counts.iter().filter(|&count| *count == 3).count();
+    // 2枚組の数を取得する
+    let two = card_counts.iter().filter(|&count| *count == 2).count();
+
+    // 3枚組、2枚組毎に役を表示する
+    let message = match (three, two) {
+        (1, 1) => "FULL HOUSE",
+        (1, 0) => "THREE CARD",
+        (0, 2) => "TWO PAIR",
+        (0, 1) => "ONE PAIR",
+        _ => "NO HAND"
+    };
+    println!("{}", message);
 }
+
