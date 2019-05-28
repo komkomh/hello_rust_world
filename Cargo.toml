@@ -12,10 +12,6 @@ name = "main"
 path = "src/main.rs"
 
 [[bin]]
-name = "No45"
-path = "src/exercises/No45.rs"
-
-[[bin]]
 name = "loop"
 path = "src/exercises/loop.rs"
 
