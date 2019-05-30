@@ -66,3 +66,7 @@ path = "src/reversi/hairetsu8_reverse.rs"
 [[bin]]
 name = "reversi_hairetsu9_reverse"
 path = "src/reversi/hairetsu9_min_score.rs"
+
+[[bin]]
+name = "reversi_client"
+path = "src/reversi/client.rs"
