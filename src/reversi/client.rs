@@ -7,8 +7,10 @@ const SEARCH_DEPTH: usize = 5;
 fn main() {
     let mut ban = create_ban();
     show_ban(&ban);
-//    let input_position = input_position(ban);
-//    println!("{},{}", input_position.0, input_position.1);
+    let position: Option<(usize, usize)> = input_position(&ban);
+    if let Some(v) = position {
+        println!("{},{}", v.0, v.1);
+    }
 }
 
 fn create_ban() -> Ban {
@@ -126,7 +128,6 @@ impl Stone {
 }
 
 // 盤を表現する
-#[derive(Copy, Clone)]
 struct Ban {
     banmen: [[Option<Stone>; BAN_SIZE]; BAN_SIZE],
     teban: Stone,
